@@ -25,7 +25,7 @@ and two subelements (or single database with two collections). One called "users
 that will have an array of messages in a form
 
 - d -- date, stored as timestamp, then converted to String, eg.
-```
+```Java
 Date date=new Date(timestamp);
 SimpleDateFormat sfd = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 sfd.format(date);
