@@ -1,14 +1,21 @@
 package no.ntnu.stud.larsjny.mobile_lab4;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ListView messages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.messages = findViewById(R.id.lv_messages);
+        this.messages.setStackFromBottom(true);
 
         // TODO: Check if user has created a nickname
 
