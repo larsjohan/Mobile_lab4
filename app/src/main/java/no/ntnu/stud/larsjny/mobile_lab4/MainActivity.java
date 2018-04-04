@@ -1,14 +1,18 @@
 package no.ntnu.stud.larsjny.mobile_lab4;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import no.ntnu.stud.larsjny.mobile_lab4.adapters.TabViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int CREATE_USN_REQUEST_CODE = 1;
 
     /**
      * Adapter for managing tabs
@@ -33,9 +37,14 @@ public class MainActivity extends AppCompatActivity {
         tabs.setTabIndicatorColor(getColor(R.color.colorAccent));
         tabs.setDrawFullUnderline(true);
 
-        // TODO: Check if user has created a nickname
+        // Check if user has created a nickname
+        // If not created, let user choose one and store in Private preferences
+        String usn = getUsername();
 
-        // TODO: If not created, let user choose one and store in Private preferences
+        if(usn.equals("Guest")){
+            createUser();
+
+        } else {
 
         // TODO: Authenticate the user anonymously in firebase
 
@@ -54,5 +63,34 @@ public class MainActivity extends AppCompatActivity {
         // TODO: When the service finds new messages, a notification should be sent.
 
         // TODO: Clicking on the notification should open the activity
+        }
+    }
+
+
+
+
+    public String getUsername(){
+        return this.getPreferences(MODE_PRIVATE).getString("username", "Guest");
+    }
+
+
+    public void createUser(){
+        Intent createUsername = new Intent(this, CreateUsername.class);
+        startActivityForResult(createUsername, CREATE_USN_REQUEST_CODE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == CREATE_USN_REQUEST_CODE && resultCode == RESULT_OK){
+            String usn = data.getStringExtra("username");
+
+            this.getPreferences(MODE_PRIVATE).edit().putString("username", usn).apply();
+
+        } else {
+            Toast.makeText(this, "A Username must be provided to use this application", Toast.LENGTH_LONG).show();
+        }
     }
 }

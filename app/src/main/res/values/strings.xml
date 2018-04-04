@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">ChatApp</string>
     <string name="new_message">New Message</string>
+    <string name="newUsernameLabel">Write your desired unique username</string>
 </resources>
