@@ -1,21 +1,37 @@
 package no.ntnu.stud.larsjny.mobile_lab4;
 
-import android.app.ActionBar;
 import android.os.Bundle;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.util.TypedValue;
+
+import no.ntnu.stud.larsjny.mobile_lab4.adapters.TabViewPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView messages;
+    /**
+     * Adapter for managing tabs
+     */
+    private TabViewPagerAdapter tabAdapter;
+
+    private ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.messages = findViewById(R.id.lv_messages);
-        this.messages.setStackFromBottom(true);
+        // Setup viewpager
+        this.tabAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this);
+        this.pager = findViewById(R.id.vp_pager);
+        this.pager.setAdapter(this.tabAdapter);
+
+        PagerTabStrip tabs = findViewById(R.id.pts_title_strip);
+        tabs.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+        tabs.setTextColor(getColor(R.color.colorTabText));
+        tabs.setTabIndicatorColor(getColor(R.color.colorAccent));
+        tabs.setDrawFullUnderline(true);
 
         // TODO: Check if user has created a nickname
 
