@@ -149,4 +149,22 @@ public class MainActivity extends AppCompatActivity {
             createUser();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Intent notificationService = new Intent(this, NotificationService.class);
+        notificationService.putExtra("size", Database.getSize());
+
+        Database.deInitListeners();
+        startService(notificationService);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Database.initListeners();
+        stopService(new Intent(this, NotificationService.class));
+    }
 }

@@ -21,6 +21,10 @@ public abstract class Database {
 
     private static final DatabaseReference MESSAGES = DATABASE.child("message");
 
+    private static final OnUserDatabaseChangeListener USERLISTENER = new OnUserDatabaseChangeListener();
+
+    private static final OnMessageDatabaseChangeListener MESSAGELISTENER = new OnMessageDatabaseChangeListener();
+
 
 
     public static final List<User> USERLIST = new ArrayList<>();
@@ -65,8 +69,19 @@ public abstract class Database {
 
         Log.d("Lab4", "Setting database change listeners");
 
-        USERS.addValueEventListener(new OnUserDatabaseChangeListener());
-        MESSAGES.addValueEventListener(new OnMessageDatabaseChangeListener());
+        USERS.addValueEventListener(USERLISTENER);
+        MESSAGES.addValueEventListener(MESSAGELISTENER);
+    }
+
+    public static void deInitListeners(){
+        Log.d("Lab4", "Removing database change listeners");
+
+        USERS.removeEventListener(USERLISTENER);
+        MESSAGES.removeEventListener(MESSAGELISTENER);
+    }
+
+    public static int getSize() {
+        return MESSAGELIST.size();
     }
 
 

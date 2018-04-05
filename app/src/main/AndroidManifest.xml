@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="stateUnchanged">
@@ -19,7 +20,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".CreateUsername" />
-        <activity android:name=".UserMessages"></activity>
+        <activity android:name=".UserMessages" />
+
+        <service android:name=".NotificationService"
+            android:exported="false"/>
     </application>
 
 </manifest>
