@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
      * Displays the UI-elements
      */
     private void initUI(){
+        MYUSER.setUsername(getUsername());
         this.tabAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this);
         this.pager = findViewById(R.id.vp_pager);
         this.pager.setAdapter(this.tabAdapter);
@@ -96,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                    createUser();
                } else {
                    Log.d("Lab4", "Username Set to " + username);
-                   MYUSER.setUsername(username);
                    initUI();
                }
            } else {
