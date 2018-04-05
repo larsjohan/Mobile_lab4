@@ -58,6 +58,10 @@ public abstract class Database {
         USERS.push().setValue(user);
     }
 
+    public static void addMessage(Message message) {
+        MESSAGES.push().setValue(message);
+    }
+
     public static void initListeners(){
 
         Log.d("Lab4", "Setting database change listeners");
@@ -77,7 +81,7 @@ public abstract class Database {
                 if (!hasUser(currentUser)) {
                     Log.d("Lab4", "Added user: " + currentUser.getUsername());
                     USERLIST.add(currentUser);
-                    if (userListAdapter != null) 
+                    if (userListAdapter != null)
                         userListAdapter.notifyDataSetChanged();
                 }
             }

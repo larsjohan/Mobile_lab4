@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseUser user;
 
+    public static final User MYUSER = new User();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,13 +87,16 @@ public class MainActivity extends AppCompatActivity {
                Log.d("Lab4", "Login successful");
                Database.initListeners();
 
+               String username = getUsername();
+
                // Check if user has created a nickname
                // If not created, let user choose one and store in Private preferences
-               if(getUsername().equals("Guest")){
+               if(username.equals("Guest")){
                    Log.d("Lab4", "Username not set");
                    createUser();
                } else {
-                   Log.d("Lab4", "Username Set to " + getUsername());
+                   Log.d("Lab4", "Username Set to " + username);
+                   MYUSER.setUsername(username);
                    initUI();
                }
            } else {

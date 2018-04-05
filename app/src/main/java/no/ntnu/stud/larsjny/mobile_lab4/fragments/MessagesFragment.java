@@ -1,12 +1,10 @@
 package no.ntnu.stud.larsjny.mobile_lab4.fragments;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -37,9 +35,10 @@ public class MessagesFragment extends Fragment {
 
         ListView messageList = view.findViewById(R.id.lv_messages);
         EditText newMessage = view.findViewById(R.id.et_new_message);
+
         ImageButton sendButton = view.findViewById(R.id.b_send_new_message);
         sendButton.setImageResource(R.drawable.ic_send_black_24dp);
-        view.findViewById(R.id.b_send_new_message).setOnClickListener(new SendMessageListener());
+        sendButton.setOnClickListener(new SendMessageListener(newMessage));
 
         // TODO: Set the list-adapter
 
