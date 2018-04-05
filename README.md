@@ -81,13 +81,13 @@ Pressing on a given nickname, should provide a list view with all messages FROM 
 
 ## Checklist
 - [ ] The repo URL is correct. The project has a Readme file. 
-- [ ] The code is well structured, and well organised. 
-- [ ] There are no secret credentials in the repository. 
-- [ ] There are no Linter warnings, or, the warnings are documented and justified in the project Readme file. 
+- [X] The code is well structured, and well organised. 
+- [X] There are no secret credentials in the repository. 
+- [X] There are no Linter warnings, or, the warnings are documented and justified in the project Readme file. 
 - [ ] The app starts and provides a user with a unique global nickname, that the user can edit/modify.
-- [ ] The user is not able to modify previously chosen Nickname, after accepting it.  
+- [X] The user is not able to modify previously chosen Nickname, after accepting it.  
 		The nickname is stored in private preferences of the app. 
-- [ ] The main screen of the app has two tabs with nice icons: Messages Feed, and Friends List. 
+- [X] The main screen of the app has two tabs with nice icons: Messages Feed, and Friends List. 
 		(Note: Everyone is everyone's friend and everyone follows everyone - one global chat room).
 - [ ] The user can enter new message from the Feed tab. This can be achieved either inlined with the message list 
 		(the UI has the messages list and a TextEdit field with the button), or, through an Action Button that opens up a 
