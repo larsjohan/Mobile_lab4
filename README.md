@@ -80,8 +80,8 @@ Pressing on a given nickname, should provide a list view with all messages FROM 
 ***How would you handle paging of messages when the total number of messages is really large? Say, thousands?***
 
 ## Checklist
-- [ ] The repo URL is correct. The project has a Readme file. 
-- [X] The code is well structured, and well organised. 
+- [X] The repo URL is correct. The project has a Readme file. 
+- [ ] The code is well structured, and well organised. 
 - [X] There are no secret credentials in the repository. 
 - [X] There are no Linter warnings, or, the warnings are documented and justified in the project Readme file. 
 - [ ] The app starts and provides a user with a unique global nickname, that the user can edit/modify.
@@ -97,22 +97,28 @@ Pressing on a given nickname, should provide a list view with all messages FROM 
 - [X] When the second app is installed (phone or emulator), the two participants can see each other messages, 
 		and they are shown in Friends List view. 
 - [X] The Friends List tab lists nicknames ONCE only (no duplications).
-- [ ] When the app is gone from foreground, and new message is posted by another user, within the predefined timeframe, 
+- [X] When the app is gone from foreground, and new message is posted by another user, within the predefined timeframe, 
 		the background service will post a Notification that shows up on the user phone. 
 		The notification can be used to open the app (or bring it back to the foreground).
 
 ## Questions
 
 - How would you implement the ability for users to edit/delete their own posts, but not someone else's?
+	- Add an edit-button to the list of messages under your own username (friends-tab) and add a rule to the firebase
+	that prevents users from editing a message that is not your own.
 - In the current implementation, if two users choose the nickname "bob", 
 	they will appear as if there is only one user with that nickname. 
-	How would you implement globally unique user IDs, and how would you enforce it? Can users pick their own nicknames then? 
+	How would you implement globally unique user IDs, and how would you enforce it? Can users pick their own nicknames then?
+	- I have implemented this. The username is validated in realtime and the username cannot be set before the validation verifies the username
 - Is it possible with Firebase to implement the ability for users to login with their FB, Google, Github identities? 
-	Can you link it with the previously established anonymous identity? 
+	Can you link it with the previously established anonymous identity?
+	- Yes, by using a default login-module that (FirebaseUI, i think) firebase provides.
+	- You can convert an anonymous login to a fixed login, and link it to the Oauth-login-system.
 - Current implementation requires background Service to monitor periodically for updates. 
 	This makes the app real-time ONLY when the foreground app is running. 
 	How would you possibly make it such that instead of PULL-mode, the PUSH mode is used, 
 	and notifications are done in real-time also? Hint: check Messaging, and PULL- vs. PUSH-models for data synchronisations.
+	- I have implemented realtime notifications. This is done by registering an event-listener in the service, so that the notification is only fired when a new message appears.
 
 
 
