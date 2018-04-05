@@ -1,5 +1,6 @@
 package no.ntnu.stud.larsjny.mobile_lab4.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import java.util.List;
 import no.ntnu.stud.larsjny.mobile_lab4.Database;
 import no.ntnu.stud.larsjny.mobile_lab4.R;
 import no.ntnu.stud.larsjny.mobile_lab4.User;
+import no.ntnu.stud.larsjny.mobile_lab4.UserMessages;
 import no.ntnu.stud.larsjny.mobile_lab4.adapters.UserListAdapter;
 
 /**
@@ -39,6 +41,14 @@ public class UsersFragment extends Fragment {
         Database.registerUserListAdapter(adapter);
 
         userList.setAdapter(adapter);
+
+        userList.setOnItemClickListener((parent, clickedView, position, id) -> {
+            User user = (User) userList.getAdapter().getItem(position);
+
+            Intent displayMessagesFromUser = new Intent(view.getContext(), UserMessages.class);
+            displayMessagesFromUser.putExtra("username", user.getUsername());
+            startActivity(displayMessagesFromUser);
+        });
 
         return view;
     }
