@@ -9,7 +9,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
+import no.ntnu.stud.larsjny.mobile_lab4.Database;
+import no.ntnu.stud.larsjny.mobile_lab4.Message;
 import no.ntnu.stud.larsjny.mobile_lab4.R;
+import no.ntnu.stud.larsjny.mobile_lab4.adapters.MessageListAdapter;
 import no.ntnu.stud.larsjny.mobile_lab4.listeners.SendMessageListener;
 
 /**
@@ -40,7 +45,13 @@ public class MessagesFragment extends Fragment {
         sendButton.setImageResource(R.drawable.ic_send_black_24dp);
         sendButton.setOnClickListener(new SendMessageListener(newMessage));
 
-        // TODO: Set the list-adapter
+        MessageListAdapter adapter = new MessageListAdapter(view.getContext(), (ArrayList<Message>) Database.MESSAGELIST);
+
+        Database.registerMessageListAdapter(adapter);
+
+        messageList.setAdapter(adapter);
+
+        messageList.setStackFromBottom(true);
 
         return view;
     }

@@ -6,4 +6,5 @@
     <color name="colorTabText">#e4e4e4</color>
     <color name="invalidUsername">#2eff0000</color>
     <color name="validUsername">#28089e00</color>
+    <color name="listItemBg">#dadada</color>
 </resources>

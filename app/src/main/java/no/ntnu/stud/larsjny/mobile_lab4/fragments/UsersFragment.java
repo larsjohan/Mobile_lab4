@@ -5,19 +5,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import no.ntnu.stud.larsjny.mobile_lab4.Database;
 import no.ntnu.stud.larsjny.mobile_lab4.R;
 import no.ntnu.stud.larsjny.mobile_lab4.User;
+import no.ntnu.stud.larsjny.mobile_lab4.adapters.UserListAdapter;
 
 /**
  *
  */
 public class UsersFragment extends Fragment {
-
-    private final List<User> userList = new ArrayList<>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -31,7 +32,13 @@ public class UsersFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_users, container, false);
 
-        // TODO: Set the adapter
+        ListView userList = view.findViewById(R.id.lv_users);
+
+        UserListAdapter adapter = new UserListAdapter(view.getContext(), (ArrayList<User>) Database.USERLIST);
+
+        Database.registerUserListAdapter(adapter);
+
+        userList.setAdapter(adapter);
 
         return view;
     }

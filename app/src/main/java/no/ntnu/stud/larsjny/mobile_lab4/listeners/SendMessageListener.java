@@ -24,6 +24,7 @@ public class SendMessageListener implements View.OnClickListener {
         String message = textField.getText().toString();
 
         if (!message.isEmpty()) {
+            textField.setText("");
             Message newMessage = new Message(MainActivity.MYUSER.getUsername(), message);
             Database.addMessage(newMessage);
         }
