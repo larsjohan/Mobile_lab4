@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import no.ntnu.stud.larsjny.mobile_lab4.adapters.TabViewPagerAdapter;
 
@@ -21,32 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager pager;
 
+    private FirebaseAuth auth;
+
+    private FirebaseUser user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Setup viewpager
-        this.tabAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this);
-        this.pager = findViewById(R.id.vp_pager);
-        this.pager.setAdapter(this.tabAdapter);
+        this.auth = FirebaseAuth.getInstance();
+        this.user = this.auth.getCurrentUser();
 
-        PagerTabStrip tabs = findViewById(R.id.pts_title_strip);
-        tabs.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
-        tabs.setTextColor(getColor(R.color.colorTabText));
-        tabs.setTabIndicatorColor(getColor(R.color.colorAccent));
-        tabs.setDrawFullUnderline(true);
-
-        // Check if user has created a nickname
-        // If not created, let user choose one and store in Private preferences
-        String usn = getUsername();
-
-        if(usn.equals("Guest")){
-            createUser();
-
-        } else {
-
-        // TODO: Authenticate the user anonymously in firebase
+        loginUser();
 
         // TODO: Display two tabs:
         //      TODO: Messages
@@ -63,23 +54,81 @@ public class MainActivity extends AppCompatActivity {
         // TODO: When the service finds new messages, a notification should be sent.
 
         // TODO: Clicking on the notification should open the activity
-        }
+
     }
 
 
+    /**
+     * Displays the UI-elements
+     */
+    private void initUI(){
+        this.tabAdapter = new TabViewPagerAdapter(getSupportFragmentManager(), this);
+        this.pager = findViewById(R.id.vp_pager);
+        this.pager.setAdapter(this.tabAdapter);
+
+        PagerTabStrip tabs = findViewById(R.id.pts_title_strip);
+        tabs.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+        tabs.setTextColor(getColor(R.color.colorTabText));
+        tabs.setTabIndicatorColor(getColor(R.color.colorAccent));
+        tabs.setDrawFullUnderline(true);
+    }
+
+    /**
+     * Authenticate the user anonymously in firebase
+     */
+    private void loginUser(){
+
+        Log.d("Lab4", "Logging in anonymously");
+
+        this.auth.signInAnonymously().addOnCompleteListener(task -> {
+           if(task.isSuccessful()) {
+               Log.d("Lab4", "Login successful");
+               Database.initListeners();
+
+               // Check if user has created a nickname
+               // If not created, let user choose one and store in Private preferences
+               if(getUsername().equals("Guest")){
+                   Log.d("Lab4", "Username not set");
+                   createUser();
+               } else {
+                   Log.d("Lab4", "Username Set to " + getUsername());
+                   initUI();
+               }
+           } else {
+               Log.e("Lab4", "Unable to log in anonymously");
+               Toast.makeText(this, "Uable to contact database", Toast.LENGTH_LONG).show();
+           }
+        });
+    }
 
 
+    /**
+     * Fetches the username from Private preferences
+     * @return the username or "Guest" if not set
+     */
     public String getUsername(){
         return this.getPreferences(MODE_PRIVATE).getString("username", "Guest");
     }
 
 
+    /**
+     * Creates a new user
+     */
     public void createUser(){
         Intent createUsername = new Intent(this, CreateUsername.class);
         startActivityForResult(createUsername, CREATE_USN_REQUEST_CODE);
     }
 
 
+    /**
+     * {@inheritDoc}
+     *
+     * Saves the username to preferences and loads GUI
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -88,9 +137,11 @@ public class MainActivity extends AppCompatActivity {
             String usn = data.getStringExtra("username");
 
             this.getPreferences(MODE_PRIVATE).edit().putString("username", usn).apply();
-
+            Toast.makeText(this, usn, Toast.LENGTH_SHORT).show();
+            initUI();
         } else {
             Toast.makeText(this, "A Username must be provided to use this application", Toast.LENGTH_LONG).show();
+            createUser();
         }
     }
 }
